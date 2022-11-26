@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Backend\MainController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,4 +16,15 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+
+// Route::group(['middleware'=>'admin'], function (){
+// Route::prefix('admin', function (){
+//         Route::get('/',)
+// });
+// });
+
+Route::prefix('administrator')->group(function (){
+    Route::get('/',[MainController::class,'mainPage']);
 });
