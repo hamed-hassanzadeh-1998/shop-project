@@ -16,10 +16,10 @@ return new class extends Migration
         Schema::create('category', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('meta_desc');
-            $table->string('meta_title');
-            $table->string('meta_kewrods');
-            $table->unsignedInteger('parent_id');
+            $table->string('meta_desc')->nullable();
+            $table->string('meta_title')->nullable();
+            $table->string('meta_keywords')->nullable();
+            $table->unsignedInteger('parent_id')->nullable();
 
             $table->timestamps();
         });
