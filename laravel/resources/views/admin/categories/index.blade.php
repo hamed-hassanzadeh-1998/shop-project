@@ -35,7 +35,13 @@
                                 <td >{{$category->name}}</td>
                                 <td class="text-center">
                                     <a class="btn btn-warning" href="{{route('categories.edit',$category->id)}}">ویرایش</a>
-                                    <a class="btn btn-danger" href="{{route('categories.destroy',$category->id)}}">حذف</a>
+                                    <div class="display-inline-block">
+                                        <form action="{{route('categories.destroy',$category->id)}}" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="_method" value="DELETE">
+                                            <button type="submit" class="btn btn-danger">حذف</button>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
 

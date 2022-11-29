@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
 
 class CategoryController extends Controller
 {
@@ -51,16 +52,6 @@ class CategoryController extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -70,7 +61,11 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $categories = Category::with('childrenRecursive')->where('parent_id', null)->get();
+        $category = Category::query()->findOrFail($id);
+       // dd($category);
+        return view('admin.categories.edit', ['categories'=>$categories,'category'=>$category]);
+
     }
 
     /**
@@ -82,7 +77,15 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $category = Category::query()->findOrFail($id);
+        $category->name = $request->input('name');
+        $category->parent_id = $request->input('category_parent');
+        $category->meta_desc = $request->input('meta_desc');
+        $category->meta_title = $request->input('meta_title');
+        $category->meta_keywords = $request->input('meta_keywords');
+        $category->save();
+        Session::flash('edit_success','دسته بندی با موفقیت ویرایش شد');
+        return  Redirect::route('categories.index');
     }
 
     /**
@@ -93,6 +96,12 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $category = Category::with('childrenRecursive')->where('id',$id)->first();
+        if (count($category->childrenRecursive)>0){
+            Session::flash('error_category',' دسته بندی '.$category->name.' دارای زیر دسته است،بنابر این حذف آن امکان پذیر نمی باشد.');
+            return  Redirect::route('categories.index');
+        }
+        $category->delete();
+        return  Redirect::route('categories.index');
     }
 }
