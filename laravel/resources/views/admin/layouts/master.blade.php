@@ -366,6 +366,7 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="{{route('attributes-group.index')}}"><i class="fa fa-circle-o"></i>لیست ویژگی ها</a></li>
+            <li><a href="{{route('attributes-value.index')}}"><i class="fa fa-circle-o"></i>مقادیر ویژگی ها</a></li>
           </ul>
         </li>
         <li class="treeview">

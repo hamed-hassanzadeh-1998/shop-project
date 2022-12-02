@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Backend\AtrributeValueController;
 use App\Http\Controllers\Backend\AttributeGroupController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\MainController;
@@ -31,4 +32,5 @@ Route::prefix('administrator')->group(function (){
     Route::get('/',[MainController::class,'mainPage']);
     Route::resource('categories',CategoryController::class);
     Route::resource('attributes-group', AttributeGroupController::class);
+    Route::resource('attributes-value', AtrributeValueController::class);
 });

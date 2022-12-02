@@ -39,6 +39,7 @@ class AttributeGroupController extends Controller
      */
     public function store(Request $request)
     {
+
         $attributesGroup=new AttributeGroup();
         $attributesGroup->name=$request->input('title');
         $attributesGroup->type=$request->input('type');
