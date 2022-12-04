@@ -52,16 +52,16 @@ class BrandController extends Controller
         ]);
         if ($validator->fails()){
             return Redirect::route('brands.create')->withErrors($validator)->withInput();
-        }else{
-            $brand=new Brand();
-            $brand->title=$request->input('title');
-            $brand->description=$request->input('description');
-            $brand->photo_id=$request->input('photo_id');
+        }else {
+            $brand = new Brand();
+            $brand->title = $request->input('title');
+            $brand->description = $request->input('description');
+            $brand->photo_id = $request->input('photo_id');
             $brand->save();
-            Session::flash('add_success','برند شما با موفقیت ثبت شد');
+            Session::flash('add_success', 'برند شما با موفقیت ثبت شد');
             return Redirect::route('brands.index');
-
         }
+
 
     }
 
@@ -84,7 +84,9 @@ class BrandController extends Controller
      */
     public function edit($id)
     {
-        //
+        $brand=Brand::with('photo')->where('id',$id)->first();
+       // dd($brand);
+        return view('admin.brands.edit',compact(['brand']));
     }
 
     /**
@@ -96,7 +98,28 @@ class BrandController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $brand=Brand::query()->findOrFail($id);
+        $validator=Validator::make($request->all(),[
+            'title' =>'required|unique:brands,title,'.$id,
+            'description'=>'required',
+        ],[
+            'title.required' =>'لطفا نام برند را وارد کنید',
+            'description.required' =>'لطفا توضیحات برند را وارد کنید',
+            'title.unique' =>'این نام برند قبلا وارد شده است',
+        ]);
+        if ($validator->fails()){
+            return Redirect::route('brands.index')->withErrors($validator)->withInput();
+        }else{
+
+            $brand->title=$request->input('title');
+            $brand->description=$request->input('description');
+            $brand->photo_id=$request->input('photo_id');
+            $brand->save();
+            Session::flash('edit_success','برند'.$brand->title.'  با موفقیت ویرایش شد');
+            return Redirect::route('brands.index');
+
+        }
+
     }
 
     /**
@@ -107,6 +130,9 @@ class BrandController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $brand=Brand::query()->findOrFail($id);
+        $brand->delete();
+        Session::flash('delete_success','برند با موفقیت حذف شد.');
+        return Redirect::route('brands.index');
     }
 }

@@ -10,11 +10,7 @@
         </div>
     </div>
 @endif
-@if(Session::has('error'))
-    <div class="alert alert-danger">
-        <div>{{session('error')}}</div>
-    </div>
-@endif
+
 @section('content')
     <section class="content">
         <div class="box box-info">
@@ -23,12 +19,7 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-                @if(Session::has('error'))
-                    <div class="alert alert-danger">
-                        <div>{{session('error')}}</div>
-                    </div>
-                @endif
-
+                @include('admin.partials.form-error')
                 <form action="{{route('brands.store')}}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row">

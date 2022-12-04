@@ -8,14 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Photo extends Model
 {
     use HasFactory;
-
+    protected $uploads='/storage/photos/';
     public function user()
     {
        return $this->belongsTo(User::class);
     }
 
-    public function brand()
+    public function getPathAttribute($photo)
     {
-        return $this->belongsTo(Brand::class);
-    }
+        return $this->uploads.$photo;
+   }
 }

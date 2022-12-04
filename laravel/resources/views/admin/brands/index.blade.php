@@ -3,6 +3,13 @@
 
 @section('content')
     <section class="content">
+        @if(Session::has('edit_success'))
+            <div class="alert alert-success">
+                <div> {{session('edit_success')}}
+                </div>
+            </div>
+        @endif
+
         <div class="box box-info">
             <div class="box-header with-border">
                 <h3 class="box-title pull-right">برندها</h3>
