@@ -1,8 +1,20 @@
+@php use Illuminate\Support\Facades\Session; @endphp
 @extends('admin.layouts.master')
 
 @section('styles')
     <link rel="stylesheet" href="{{asset('/admin/dist/css/dropzone.css')}}">
 @endsection
+@if(Session::has('add_success'))
+    <div class="alert alert-success">
+        <div> {{session('add_success')}}
+        </div>
+    </div>
+@endif
+@if(Session::has('error'))
+    <div class="alert alert-danger">
+        <div>{{session('error')}}</div>
+    </div>
+@endif
 @section('content')
     <section class="content">
         <div class="box box-info">
@@ -17,7 +29,7 @@
                     </div>
                 @endif
 
-                <form action="{{route('brands.store')}}" method="POST" >
+                <form action="{{route('brands.store')}}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="col-md-6 col-md-offset-3">
@@ -33,6 +45,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="photo">تصویر:</label>
+                                <input type="hidden" name="photo_id" id="brand-photo">
                                 <div id="photo" class="dropzone">
                                 </div>
                             </div>
@@ -48,10 +61,18 @@
 @endsection
 
 @section('scripts')
-    <script src="{{asset('/admin/dist/js/dropzone.js')}}"></script>
+    <script type="text/javascript" src="{{asset('/admin/dist/js/dropzone.js')}}"></script>
     <script>
-        var drop=new Dropzone('#photo',{
-            url:"{{route('photos.create')}}"
-        })
+        var drop = new Dropzone('#photo', {
+            addRemoveLinks: true,
+            maxFiles: 1,
+            url: "{{ route('photos.upload') }}",
+            sending: function (file, xhr, formData) {
+                formData.append("_token", "{{csrf_token()}}")
+            },
+            success: function (file, response) {
+                document.getElementById('brand-photo').value = response.photo_id
+            }
+        });
     </script>
 @endsection

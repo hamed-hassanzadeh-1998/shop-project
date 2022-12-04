@@ -5,7 +5,7 @@ use App\Http\Controllers\Backend\AttributeGroupController;
 use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\MainController;
-use App\Http\Controllers\PhotosController;
+use App\Http\Controllers\Backend\PhotosController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,4 +37,5 @@ Route::prefix('administrator')->group(function (){
     Route::resource('attributes-value', AtrributeValueController::class);
     Route::resource('brands', BrandController::class);
     Route::resource('photos', PhotosController::class);
+    Route::post('photos/upload', [PhotosController::class,'upload'])->name('photos.upload');
 });
