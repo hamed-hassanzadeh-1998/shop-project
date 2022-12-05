@@ -21,10 +21,7 @@ class Category extends Model
             'parent_id');
     }
 
-    /**
-     * @return HasMany
-     */
-    public function childrenRecursive(): HasMany
+    public function childrenRecursive()
     {
         return $this->children()->with('childrenRecursive');
     }
