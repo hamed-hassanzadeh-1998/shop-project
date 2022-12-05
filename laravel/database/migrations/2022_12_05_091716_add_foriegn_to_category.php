@@ -13,14 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('category', function (Blueprint $table) {
+        Schema::create('attributegroup_category', function (Blueprint $table) {
             $table->engine='InnoDb';
             $table->increments('id');
-            $table->string('name');
-            $table->string('meta_desc')->nullable();
-            $table->string('meta_title')->nullable();
-            $table->string('meta_keywords')->nullable();
-            $table->unsignedInteger('parent_id')->nullable();
+            $table->integer('category_id')->unsigned();
+            $table->foreign('category_id')->references('id')->on('category')->onDelete('cascade');
+            $table->integer('attributeGroup_id')->unsigned();
+            $table->foreign('attributeGroup_id')->references('id')->on('attributesgroup')->onDelete('cascade');
 
             $table->timestamps();
         });
@@ -33,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('category');
+        Schema::dropIfExists('attributegroup_category');
     }
 };

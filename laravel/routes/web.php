@@ -6,6 +6,7 @@ use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\MainController;
 use App\Http\Controllers\Backend\PhotosController;
+use App\Http\Controllers\Backend\ProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -38,4 +39,5 @@ Route::prefix('administrator')->group(function (){
     Route::resource('brands', BrandController::class);
     Route::resource('photos', PhotosController::class);
     Route::post('photos/upload', [PhotosController::class,'upload'])->name('photos.upload');
+    Route::resource('products', ProductController::class);
 });
